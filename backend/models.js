@@ -10,7 +10,7 @@ db.run(`
         status TEXT DEFAULT 'CLOSED'
     )
 `);
-
+    
 db.run(`
     CREATE TABLE IF NOT EXISTS Participants (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,6 +20,7 @@ db.run(`
     )
 `);
 
+// Create Attendance table
 db.run(`
     CREATE TABLE IF NOT EXISTS Attendance (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,7 +32,7 @@ db.run(`
     )
 `);
 module.exports = {
-  
+    // Event-related functions
     createEvent: (event, callback) => {
         const { name, startTime, endTime, accessCode } = event;
         db.run(
@@ -95,7 +96,7 @@ module.exports = {
         db.run(`DELETE FROM Participants WHERE id = ?`, [participantId], callback);
     },    
 
-  
+    // Attendance-related functions
     recordAttendance: (attendance, callback) => {
         const { eventId, participantId, timestamp } = attendance;
         db.run(
