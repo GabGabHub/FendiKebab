@@ -1,18 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const { generateQRCode } = require('../utils/qrCode'); 
-const events = require('../models/events'); 
-
+const events = require('../routes/events'); 
+const models = require('../models.js')
 
 router.post('/events', async (req, res) => {
     const event = req.body;
-
     try {
-      
         const qrCode = await generateQRCode(event.accessCode);
-        events.createEvent(event, (err, result) => {
+        models.createEvent(event, (err, result) => {
             if (err) return res.status(500).send("Error creating event.");
-
             res.status(201).json({ ...result, qrCode });
         });
     } catch (error) {
@@ -21,9 +18,8 @@ router.post('/events', async (req, res) => {
     }
 });
 
-
 router.get('/events', (req, res) => {
-    events.getAllEvents((err, rows) => {
+    models.getAllEvents((err, rows) => {
         if (err) return res.status(500).send("Error fetching events.");
         res.json(rows);
     });
