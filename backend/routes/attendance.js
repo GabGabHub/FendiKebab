@@ -3,7 +3,6 @@ const router = express.Router();
 const attendance = require('../routes/attendance');
 const models = require('../models.js')
 
-// Record attendance
 router.post('/attendance', (req, res) => {
     const record = req.body;
     models.recordAttendance(record, (err) => {
@@ -12,7 +11,6 @@ router.post('/attendance', (req, res) => {
     });
 });
 
-// Get attendance for an event
 router.get('/attendance/:eventId', (req, res) => {
     const { eventId } = req.params;
     models.getAttendanceByEvent(eventId, (err, rows) => {
