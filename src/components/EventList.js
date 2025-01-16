@@ -1,9 +1,9 @@
 import React from 'react';
-import { QRCodeCanvas } from 'qrcode.react';  // Correct import for QRCodeCanvas
+import { QRCodeCanvas } from 'qrcode.react'; 
 
 const EventList = ({ events }) => {
   if (!events || events.length === 0) {
-    return <p>No events available.</p>;  // This message shows if no events are passed or available
+    return <p>No events available.</p>;
   }
 
   return (

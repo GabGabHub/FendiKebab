@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import {createEvent} from "../api"
 
 const EventForm = ({ setEvents }) => {
   const [eventName, setEventName] = useState("");
@@ -9,17 +10,15 @@ const EventForm = ({ setEvents }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Create event object
     const eventData = {
       name: eventName,
       startTime: startTime,
       endTime: endTime,
     };
 
-    // Post event to backend
-    axios.post("http://localhost:5000/api/events", eventData)
+    createEvent(eventData)
       .then(response => {
-        setEvents(prevEvents => [...prevEvents, response.data]);  // Add new event to list
+        setEvents(prevEvents => [...prevEvents, response.data]);
         alert("Event created successfully!");
       })
       .catch(error => {

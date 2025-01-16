@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { QRCodeCanvas } from "qrcode.react"; // Use QRCodeCanvas from qrcode.react
+import { QRCodeCanvas } from "qrcode.react";
 import axios from "axios";
 
 const AttendanceCheckin = ({ events }) => {
@@ -14,11 +14,10 @@ const AttendanceCheckin = ({ events }) => {
     const foundEvent = events.find(event => event.accessCode === codeInput);
     if (foundEvent) {
       setEvent(foundEvent);
-      // Send attendance record to backend
-      axios.post("http://localhost:5000/attendance", {
+      axios.post("http://localhost:3000/attendance", {
         eventId: foundEvent.id,
         timestamp: new Date().toISOString(),
-        participantId: 1, // Assume participant ID 1 for simplicity
+        participantId: 1,
       })
       .then(response => {
         alert("Attendance recorded successfully!");

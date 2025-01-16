@@ -4,7 +4,7 @@ import axios from "axios";
 const ExportAttendance = ({ events }) => {
   const handleExport = (eventId) => {
     axios
-      .get(`http://localhost:5000/api/attendance/${eventId}`)
+      .get(`http://localhost:3000/api/attendance/${eventId}`)
       .then((response) => {
         const data = response.data.map((att) => ({
           participantName: att.Participant.name,
