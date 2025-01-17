@@ -6,6 +6,7 @@ const EventForm = ({ setEvents }) => {
   const [eventName, setEventName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [accessCode, setAccessCode] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,6 +15,7 @@ const EventForm = ({ setEvents }) => {
       name: eventName,
       startTime: startTime,
       endTime: endTime,
+      accessCode: accessCode,
     };
 
     createEvent(eventData)
@@ -46,6 +48,12 @@ const EventForm = ({ setEvents }) => {
           value={endTime}
           onChange={(e) => setEndTime(e.target.value)}
         />
+        <input
+          type="text"
+          placeholder="Access code"
+          value={accessCode}
+          onChange={(e) => setAccessCode(e.target.value)}
+          />
         <button type="submit">Create Event</button>
       </form>
     </div>

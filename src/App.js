@@ -22,16 +22,10 @@ const App = () => {
     <div>
       <h1>Event Management</h1>
       {<EventList events={events} />}
-      <h1>Events</h1>
       <button onClick={() => setShowForm(!showForm)}>
         {showForm ? 'Cancel' : 'Add Event'}
       </button>
       {showForm && <EventForm setEvents={setEvents} />}
-      <ul>
-        {events.map(event => (
-          <li key={event.id}>{event.name}</li>
-        ))}
-      </ul>
     </div>
   );
 };

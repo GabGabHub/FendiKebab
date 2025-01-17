@@ -12,10 +12,13 @@
     "express": "^4.21.2",
     "nth-check": "^2.1.1",
     "postcss": "^8.5.1",
+    "qrcode": "^1.5.4",
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "^5.0.1",
+    "sequelize": "^6.37.5",
+    "sqlite3": "^5.1.7",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },
