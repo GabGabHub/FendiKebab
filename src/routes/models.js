@@ -55,6 +55,24 @@ const getAllEvents = async (callback) => {
     }
 };
 
+// Delete Event
+const deleteEvent = async (eventId, callback) => {
+    try {
+        const result = await Event.destroy({
+            where: { id: eventId },
+        });
+
+        if (result === 0) {
+            callback(`Event with id ${eventId} not found`, null);
+        } else {
+            callback(null, `Event with id ${eventId} successfully deleted`);
+        }
+    } catch (error) {
+        console.error("Error deleting event:", error);
+        callback(error, null);
+    }
+};
+
 // Record Attendance
 const recordAttendance = async (attendanceData, callback) => {
     try {
@@ -84,5 +102,6 @@ module.exports = {
     createEvent,
     getAllEvents,
     recordAttendance,
-    getAttendanceByEvent
+    getAttendanceByEvent,
+    deleteEvent
 };

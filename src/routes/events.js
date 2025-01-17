@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { generateQRCode } = require('./qrCode.js'); 
+const { generateQRCode } = require('./qrCode.js');
 const models = require('./models.js')
 
 router.post('/events', async (req, res) => {
@@ -14,6 +14,19 @@ router.post('/events', async (req, res) => {
         });
     } catch (error) {
         console.error("Error generating QR code:", error);
+        res.status(500).send("Error generating QR code.");
+    }
+});
+
+router.delete('/events/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        models.deleteEvent(id, (err, result) => {
+            if (err) return res.status(500).send("Error delenting event.");
+            console.log('Event was deleted');
+        })
+    }catch(error){
+        console.error("Error deleting event", error);
         res.status(500).send("Error generating QR code.");
     }
 });
