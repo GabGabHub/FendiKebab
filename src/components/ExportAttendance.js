@@ -1,10 +1,10 @@
 import React from "react";
 import axios from "axios";
+import { getAttendance } from "../api";
 
 const ExportAttendance = ({ events }) => {
   const handleExport = (eventId) => {
-    axios
-      .get(`http://localhost:3000/api/attendance/${eventId}`)
+    getAttendance(eventId)
       .then((response) => {
         const data = response.data.map((att) => ({
           participantName: att.Participant.name,

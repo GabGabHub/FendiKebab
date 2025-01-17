@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import axios from "axios";
+import { postAttendance } from "../api";
 
 const AttendanceCheckin = ({ events }) => {
   const [codeInput, setCodeInput] = useState("");
@@ -14,7 +15,7 @@ const AttendanceCheckin = ({ events }) => {
     const foundEvent = events.find(event => event.accessCode === codeInput);
     if (foundEvent) {
       setEvent(foundEvent);
-      axios.post("http://localhost:3000/attendance", {
+      postAttendance({
         eventId: foundEvent.id,
         timestamp: new Date().toISOString(),
         participantId: 1,
