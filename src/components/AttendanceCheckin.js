@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
-import axios from "axios";
 import { postAttendance } from "../api";
 
 const AttendanceCheckin = ({ events }) => {
