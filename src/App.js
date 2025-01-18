@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import EventList from './components/EventList';
 import { getEvents } from './api';
 import EventForm from './components/EventForm';
+import './App.css'
 
 const App = () => {
   const [events, setEvents] = useState([]);
@@ -18,13 +19,15 @@ const App = () => {
   });
 
   return (
-    <div>
-      <h1>Event Management</h1>
-      {<EventList events={events} />}
-      <button onClick={() => setShowForm(!showForm)}>
-        {showForm ? 'Cancel' : 'Add Event'}
-      </button>
-      {showForm && <EventForm setEvents={setEvents} />}
+    <div id='mainPage'> 
+      <h1 id='eventManagement'>Event Management</h1>
+      <div id="addBtn">
+        {<EventList events={events} />}
+        <button style={{width:'100px',margin:'5px',}} onClick={() => setShowForm(!showForm)}>
+          {showForm ? 'Cancel' : 'Add Event'}
+        </button>
+        {showForm && <EventForm setEvents={setEvents} />}
+      </div>
     </div>
   );
 };

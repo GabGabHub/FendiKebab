@@ -1,6 +1,8 @@
 import React from 'react';
 import { QRCodeCanvas } from 'qrcode.react'; 
 import { delEvent } from '../api';
+import '../App.css'
+import ExportAttendance from './ExportAttendance';
 
 const EventList = ({ events }) => {
   if (!events || events.length === 0) {
@@ -15,15 +17,20 @@ const EventList = ({ events }) => {
   };
 
   return (
-    <div>
-      <h2>Event List</h2>
+    <div id="eventDist">
+      <h2 id='eventList'>Event List</h2>
       {events.map((event) => (
-        <div key={event.id}>
-          <h3>{event.name}</h3>
-          <p>Start Time: {event.startTime}</p>
-          <p>End Time: {event.endTime}</p>
-          <QRCodeCanvas value={event.accessCode} />
-          <button onClick={() => handleDelete(event.id)} style={{ marginTop: '10px', backgroundColor: 'red', color: 'white' }}>
+        <div id="eventItems" key={event.id}>
+          <div id="qrDiv">
+            <div id="eventText">
+              <h3 id='eventName'>{event.name}</h3>
+              <p id='startTime'>Start Time: {event.startTime}</p>
+              <p id='endTime'>End Time: {event.endTime}</p>
+            </div>
+            <QRCodeCanvas id='qrCode' value={event.accessCode} />
+          </div>
+          <ExportAttendance event={event}></ExportAttendance>
+          <button onClick={() => handleDelete(event.id)} style={{ marginTop: '10px', backgroundColor: 'red', color: 'white' ,width:'100px',}}>
             Delete Event
           </button>
         </div>

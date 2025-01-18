@@ -1,7 +1,7 @@
 import React from "react";
 import { getAttendance } from "../api";
 
-const ExportAttendance = ({ events }) => {
+const ExportAttendance = ({ event }) => {
   const handleExport = (eventId) => {
     getAttendance(eventId)
       .then((response) => {
@@ -29,15 +29,17 @@ const ExportAttendance = ({ events }) => {
 
   return (
     <div>
-      <h2>Export Attendance</h2>
-      <select onChange={(e) => handleExport(e.target.value)}>
+      {/* <select onChange={(e) => handleExport(e.target.value)}>
         <option value="">Select an Event</option>
         {events.map((event) => (
           <option key={event.id} value={event.id}>
             {event.name}
           </option>
         ))}
-      </select>
+      </select> */}
+      <button onClick={() => handleExport(event.id)} style={{ marginTop: '10px', width:'150px',}}>
+            Export Attendace
+      </button>
     </div>
   );
 };

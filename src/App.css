@@ -1,3 +1,66 @@
+#eventManagement {
+  display:flex;
+  justify-content: center;
+  background-color:#282c34;
+  width:400px;
+  border-radius: 25px;
+}
+
+#eventList{
+  margin:10px;
+}
+
+#addBtn{
+  width:600px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#qrCode{
+  margin:10px;
+}
+
+#qrDiv{
+  background-color: antiquewhite;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 400;
+  border-radius: 10px;
+}
+
+#eventItems{
+  display:flex;
+  flex-direction: column;
+  background-color: grey;
+  border-radius: 10px;
+  outline-color: aqua;
+  margin:10px;
+}
+
+#eventDist{
+  display:inline-grid;
+  background-color:gray;
+  width: 600px;
+  border-radius:20px;
+}
+
+#eventText{
+  display:flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+#mainPage{
+  display:flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-self: flex-start;
+}
+
+
 .App {
   text-align: center;
 }
