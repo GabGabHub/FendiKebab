@@ -6,11 +6,14 @@ import { getEvents } from './api';
 import EventForm from './components/EventForm';
 import './App.css';
 import FormPage from './FormPage'; 
+import LoginPage from './components/logIN';
+import SigninPage from './components/signIN';
 
 const App = () => {
   const [events, setEvents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); 
+  const [inputText, setInputText] = useState('');
 
   useEffect(() => {
     getEvents()
@@ -31,8 +34,9 @@ const App = () => {
     <Router>
       <div id="mainPage">
         <Routes>
+          <Route path="/" element={<><LogIn /><NavigateToForm inputText={inputText} setInputText={setInputText} /></>}></Route>
           <Route
-            path="/"
+            path="/adminPage"
             element={
               <>
                 <h1 id="eventManagement">Event Management</h1>
@@ -66,9 +70,34 @@ const App = () => {
           />
           <Route path="/Form/:accessCode" element={<FormPage />} />
           <Route path="/eventviewer" element={<EventViewer events={events} />} />
+          <Route path="/auth" element={<LoginPage />} />
+          <Route path="/signin" element={<SigninPage />} />
         </Routes>
       </div>
     </Router>
+  );
+};
+
+const NavigateToForm = ({ inputText, setInputText }) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (inputText.trim()) {
+      navigate(`/Form/${inputText}`);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
+        placeholder="Input access code"
+      />
+      <button type="submit">Submit</button>
+    </form>
   );
 };
 
@@ -90,6 +119,28 @@ const NavigateToViewer = () => {
       onClick={() => navigate('/eventviewer')}
     >
       Go to Event Viewer
+    </button>
+  );
+};
+
+const LogIn = () => {
+  const navigate = useNavigate();
+
+  return (
+    <button
+      style={{
+        width: '150px',
+        margin: '5px',
+        backgroundColor: 'blue',
+        color: 'white',
+        padding: '10px',
+        borderRadius: '5px',
+        border: 'none',
+        cursor: 'pointer',
+      }}
+      onClick={() => navigate('/auth')}
+    >
+      Log In
     </button>
   );
 };

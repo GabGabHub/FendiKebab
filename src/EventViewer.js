@@ -50,7 +50,7 @@ const NavigateToMain = () => {
         border: 'none',
         cursor: 'pointer',
       }}
-      onClick={() => navigate('/')}
+      onClick={() => navigate('/adminPage')}
     >
       Go back
     </button>

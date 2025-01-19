@@ -1,33 +1,51 @@
-// FormPage.js
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+// import axios from 'axios';
+import { postAttendance } from './api'
+import { useParams, useNavigate } from 'react-router-dom';
 
 const FormPage = () => {
   const { accessCode } = useParams();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [message] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-        const response = await axios.post('http://localhost:5000/api/attendance', {
-            name,
-            email,
-            accessCode,
-        });
-        
-        if (response.status === 201) {
-            setMessage('Your information has been saved successfully!');
-        } else {
-            setMessage('Something went wrong. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error saving participant:', error.response ? error.response.data : error);
-        setMessage('An error occurred while saving your information.');
+    const formData = {
+      name,
+      email,
+      accessCode
     }
+      postAttendance(formData)
+      .then(response => {
+        alert("Attendance recorded successfully!");
+      })
+      .catch(error => {
+        console.error("There was an error recording attendance!", error);
+      });
+  };
+
+const NavigateToMain = () => {
+
+  return (
+    <button
+      style={{
+        width: '150px',
+        margin: '5px',
+        backgroundColor: 'blue',
+        color: 'white',
+        padding: '10px',
+        borderRadius: '5px',
+        border: 'none',
+        cursor: 'pointer',
+      }}
+      onClick={() => navigate('/')}
+    >
+      Go back
+    </button>
+  );
 };
 
 
@@ -59,6 +77,7 @@ const FormPage = () => {
         <button type="submit">Submit</button>
       </form>
       {message && <p>{message}</p>}
+      <NavigateToMain></NavigateToMain>
     </div>
   );
 };

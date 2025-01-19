@@ -1,5 +1,11 @@
-const { sequelize, rawDb } = require('./database.js');
+const { sequelize } = require('./database.js');
 const { DataTypes } = require('sequelize');
+
+const EventOrganizer = sequelize.define('EventOrganizer', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: { type: DataTypes.STRING, allowNull: false },
+    password: {type: DataTypes.STRING, allowNull: false}
+})
 
 const Event = sequelize.define('Event', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -27,6 +33,9 @@ Participant.hasMany(Attendance, { foreignKey: 'participantId' });
 Attendance.belongsTo(Event, { foreignKey: 'eventId' });
 Attendance.belongsTo(Participant, { foreignKey: 'participantId' });
 
+EventOrganizer.hasMany(Event, { foreignKey: 'eoId' }); 
+Event.belongsTo(EventOrganizer, { foreignKey: 'eoId' });
+
 sequelize.sync({ alter: true })
     .then(() => console.log('Database synced'))
     .catch((err) => console.error('Error syncing database:', err));
@@ -47,6 +56,18 @@ const getAllEvents = async (callback) => {
         callback(null, events);
     } catch (error) {
         console.error("Error fetching events:", error);
+        callback(error, null);
+    }
+};
+
+const getUserEvents = async (eoId, callback) => {
+    try {
+        const events = await Event.findAll({
+            where: { eoId },
+        });
+        callback(null, events);
+    } catch (error) {
+        console.error("Error fetching user events:", error);
         callback(error, null);
     }
 };
@@ -91,13 +112,51 @@ const getAttendanceByEvent = async (eventId, callback) => {
     }
 };
 
+const signIn = async (eoData, callback) => {
+    try{
+        const eo = await EventOrganizer.create(eoData);
+        callback(null,eo);
+    } catch (error) {
+        console.error('Error logging in:', error);
+        callback(error, null);
+    }
+};
+
+const logIn = async (logDetails, callback) => {
+    try {
+        const {name, password} = logDetails;
+        const user = await EventOrganizer.findOne({
+            where: { name }});
+        
+        if (!user) {
+            callback('User not found', null);
+            return;
+        }
+    
+        const isPasswordMatch = user.password === password;
+        if (!isPasswordMatch) {
+            callback('Invalid password', null);
+            return;
+        }
+
+        callback(null, logDetails);
+    } catch (error) {
+        console.error("Error logging in:", error);
+        callback(error, null);
+    }
+};
+
 module.exports = {
     Event,
     Participant,
     Attendance,
+    EventOrganizer,
     createEvent,
     getAllEvents,
+    getUserEvents,
     recordAttendance,
     getAttendanceByEvent,
-    deleteEvent
+    deleteEvent,
+    signIn,
+    logIn,
 };
