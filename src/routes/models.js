@@ -30,11 +30,10 @@ const Attendance = sequelize.define('Attendance', {
 
 Event.hasMany(Attendance, { foreignKey: 'eventId' });
 Participant.hasMany(Attendance, { foreignKey: 'participantId' });
-Attendance.belongsTo(Event, { foreignKey: 'eventId' });
-Attendance.belongsTo(Participant, { foreignKey: 'participantId' });
-
 EventOrganizer.hasMany(Event, { foreignKey: 'eoId' }); 
 Event.belongsTo(EventOrganizer, { foreignKey: 'eoId' });
+Attendance.belongsTo(Event, { foreignKey: 'eventId' });
+Attendance.belongsTo(Participant, { foreignKey: 'participantId' });
 
 sequelize.sync({ alter: true })
     .then(() => console.log('Database synced'))

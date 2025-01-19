@@ -21,7 +21,7 @@ router.post('/attendance', async (req, res) => {
         const attendance = await models.Attendance.create({
             eventId: event.id,
             participantId: participant.id,
-            timestamp: new Date().toISOString(),
+            timestamp: new Date().toLocaleString(),
         });
 
         res.status(201).json({ message: 'Attendance recorded successfully', attendance });
