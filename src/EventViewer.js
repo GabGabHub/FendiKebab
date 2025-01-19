@@ -1,5 +1,6 @@
 import React from "react";
 import { QRCodeCanvas } from "qrcode.react";
+import { useNavigate } from 'react-router-dom';
 
 const EventViewer = ({ events }) => {
   if (!events || events.length === 0) {
@@ -29,7 +30,30 @@ const EventViewer = ({ events }) => {
           </div>
         );
       })}
+      <NavigateToMain></NavigateToMain>
     </div>
+  );
+};
+
+const NavigateToMain = () => {
+  const navigate = useNavigate();
+
+  return (
+    <button
+      style={{
+        width: '150px',
+        margin: '5px',
+        backgroundColor: 'blue',
+        color: 'white',
+        padding: '10px',
+        borderRadius: '5px',
+        border: 'none',
+        cursor: 'pointer',
+      }}
+      onClick={() => navigate('/')}
+    >
+      Go back
+    </button>
   );
 };
 
