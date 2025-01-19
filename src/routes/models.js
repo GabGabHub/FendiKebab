@@ -1,8 +1,6 @@
 const { sequelize, rawDb } = require('./database.js');
 const { DataTypes } = require('sequelize');
 
-
-// Define Models
 const Event = sequelize.define('Event', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
@@ -16,6 +14,7 @@ const Participant = sequelize.define('Participant', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
     email: { type: DataTypes.STRING, unique: true, allowNull: false },
+    accessCode: { type: DataTypes.STRING, allowNull: false }
 });
 
 const Attendance = sequelize.define('Attendance', {
@@ -28,12 +27,10 @@ Participant.hasMany(Attendance, { foreignKey: 'participantId' });
 Attendance.belongsTo(Event, { foreignKey: 'eventId' });
 Attendance.belongsTo(Participant, { foreignKey: 'participantId' });
 
-// Sync database
 sequelize.sync({ alter: true })
     .then(() => console.log('Database synced'))
     .catch((err) => console.error('Error syncing database:', err));
 
-// Create Event
 const createEvent = async (eventData, callback) => {
     try {
         const event = await Event.create(eventData);
@@ -44,7 +41,6 @@ const createEvent = async (eventData, callback) => {
     }
 };
 
-// Get all Events
 const getAllEvents = async (callback) => {
     try {
         const events = await Event.findAll();
@@ -55,7 +51,6 @@ const getAllEvents = async (callback) => {
     }
 };
 
-// Delete Event
 const deleteEvent = async (eventId, callback) => {
     try {
         const result = await Event.destroy({
@@ -73,7 +68,6 @@ const deleteEvent = async (eventId, callback) => {
     }
 };
 
-// Record Attendance
 const recordAttendance = async (attendanceData, callback) => {
     try {
         const attendance = await Attendance.create(attendanceData);
@@ -84,7 +78,6 @@ const recordAttendance = async (attendanceData, callback) => {
     }
 };
 
-// Get Attendance by Event
 const getAttendanceByEvent = async (eventId, callback) => {
     try {
         const attendances = await Attendance.findAll({
@@ -99,6 +92,9 @@ const getAttendanceByEvent = async (eventId, callback) => {
 };
 
 module.exports = {
+    Event,
+    Participant,
+    Attendance,
     createEvent,
     getAllEvents,
     recordAttendance,
