@@ -23,6 +23,7 @@ const App = () => {
       getEventById({eoId: user.id})
         .then((response) => {
           setEvents(response.data);
+          // console.log(response);
           // console.log(response.data);
         })
         .catch((error) => {
@@ -32,6 +33,8 @@ const App = () => {
       getEvents()
       .then((response) => {
         setEvents(response.data);
+        console.log(response.data);
+        console.log(response);
       })
       .catch((error) => {
         console.error('Error fetching events:', error);

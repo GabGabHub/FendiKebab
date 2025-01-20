@@ -20,7 +20,6 @@ router.post('/events', async (req, res) => {
 
 router.delete('/events/:id', async (req, res) => {
     const { id } = req.params;
-    console.log(req.params);
     try {
         models.deleteEvent(id, (err, result) => {
             if (err) return res.status(500).send("Error delenting event.");
@@ -41,7 +40,7 @@ router.get('/events', (req, res) => {
 
 router.get('/events/:id', async (req,res) => {
     const { id } = req.params;
-    console.log(id);
+
     models.getUserEvents(id, (err, result) => {
         if (err) return res.status(500).send("Error fetching events.");
     res.json(rows);
