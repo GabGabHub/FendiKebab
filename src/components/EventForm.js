@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { createEvent } from "../api";
 import { v4 as uuidv4 } from "uuid";
+import { useSelector } from 'react-redux';
 
 const EventForm = ({ setEvents }) => {
   const [eventName, setEventName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const user = useSelector((state) => state.user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,18 +17,20 @@ const EventForm = ({ setEvents }) => {
       startTime, 
       endTime,   
       accessCode: uuidv4().slice(0, 8).toUpperCase(),
+      eoId: user.id ? user.id : null,
     };
 
     createEvent(eventData)
       .then((response) => {
 
         const createdEvent = response.data;
-
+        // console.log(createdEvent.data.startTime);
         const newEvent = {
           ...createdEvent,
           startTime: new Date(createdEvent.startTime).toLocaleString(),
           endTime: new Date(createdEvent.endTime).toLocaleString(),
         };
+        // console.log(newEvent);
 
         setEvents((prevEvents) => [...prevEvents, newEvent]);
         alert("Event created successfully!");

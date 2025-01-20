@@ -61,9 +61,11 @@ const getAllEvents = async (callback) => {
 
 const getUserEvents = async (eoId, callback) => {
     try {
+        // console.log(eoId);
         const events = await Event.findAll({
             where: { eoId },
         });
+        // console.log(events);
         callback(null, events);
     } catch (error) {
         console.error("Error fetching user events:", error);
@@ -137,6 +139,8 @@ const logIn = async (logDetails, callback) => {
             callback('Invalid password', null);
             return;
         }
+
+        logDetails={ id: user.id, name: user.name}
 
         callback(null, logDetails);
     } catch (error) {

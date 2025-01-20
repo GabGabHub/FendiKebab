@@ -2,27 +2,41 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'; 
 import EventList from './components/EventList';
 import EventViewer from './EventViewer'; 
-import { getEvents } from './api';
+import { getEventById, getEvents } from './api';
 import EventForm from './components/EventForm';
 import './App.css';
 import FormPage from './FormPage'; 
 import LoginPage from './components/logIN';
 import SigninPage from './components/signIN';
+import { useSelector } from 'react-redux';
 
 const App = () => {
   const [events, setEvents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); 
   const [inputText, setInputText] = useState('');
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    getEvents()
+    // console.log(user.id);
+    if(user.id){
+      getEventById({eoId: user.id})
+        .then((response) => {
+          setEvents(response.data);
+          // console.log(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching events:', error);
+        });
+    }else{
+      getEvents()
       .then((response) => {
         setEvents(response.data);
       })
       .catch((error) => {
         console.error('Error fetching events:', error);
       });
+    }
   }); 
 
   const filteredEvents = events.filter((event) => {
@@ -31,50 +45,51 @@ const App = () => {
   });
 
   return (
-    <Router>
-      <div id="mainPage">
-        <Routes>
-          <Route path="/" element={<><LogIn /><NavigateToForm inputText={inputText} setInputText={setInputText} /></>}></Route>
-          <Route
-            path="/adminPage"
-            element={
-              <>
-                <h1 id="eventManagement">Event Management</h1>
+      <Router>
+        <div id="mainPage">
+          <Routes>
+            <Route path="/" element={<><LogIn /><NavigateToForm inputText={inputText} setInputText={setInputText} /></>}></Route>
+            <Route
+              path="/adminPage"
+              element={
+                <>
+                  <h1 id="eventManagement">{user.name}'s event group</h1>
 
-                <div id="searchDiv">
-                  <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search by event name..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
+                  <div id="searchDiv">
+                    <input
+                      type="text"
+                      id="searchInput"
+                      placeholder="Search by event name..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                  </div>
 
-                <div id="addBtn">
-                  <EventList events={filteredEvents} setEvents={setEvents} />
+                  <div id="addBtn">
+                    <EventList events={filteredEvents} setEvents={setEvents} />
 
-                  <button
-                    style={{ width: '100px', margin: '5px' }}
-                    onClick={() => setShowForm(!showForm)}
-                  >
-                    {showForm ? 'Cancel' : 'Add Event'}
-                  </button>
+                    <button
+                      style={{ width: '100px', margin: '5px' }}
+                      onClick={() => setShowForm(!showForm)}
+                    >
+                      {showForm ? 'Cancel' : 'Add Event'}
+                    </button>
 
-                  {showForm && <EventForm setEvents={setEvents} />}
+                    {showForm && <EventForm setEvents={setEvents} />}
 
-                  <NavigateToViewer />
-                </div>
-              </>
-            }
-          />
-          <Route path="/Form/:accessCode" element={<FormPage />} />
-          <Route path="/eventviewer" element={<EventViewer events={events} />} />
-          <Route path="/auth" element={<LoginPage />} />
-          <Route path="/signin" element={<SigninPage />} />
-        </Routes>
-      </div>
-    </Router>
+                    <NavigateToViewer />
+                  </div>
+                </>
+              }
+            />
+            <Route path="/Form/:accessCode" element={<FormPage />} />
+            <Route path="/eventviewer" element={<EventViewer events={events} />} />
+            <Route path="/auth" element={<LoginPage />} />
+            <Route path="/signin" element={<SigninPage />} />
+          </Routes>
+        </div>
+      </Router>
+
   );
 };
 

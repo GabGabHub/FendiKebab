@@ -9,7 +9,7 @@ const api = axios.create({
 export const getEvents = () => api.get('/events');
 export const createEvent = (eventData) => api.post('/events', eventData);
 export const delEvent = (eventID) => api.delete(`/events/${eventID}`);
-export const getEventById = (eoID) => api.get(`/events${eoID}`);
+export const getEventById = (eoID) => api.get(`/events/${eoID}`);
 export const getAttendance = (eventId) => api.get(`/attendance/${eventId}`);
 export const postAttendance = (data) => api.post('/attendance', data);
 export const signIN = (accDetails) => api.post('/auth/signin', accDetails);

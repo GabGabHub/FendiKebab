@@ -26,6 +26,7 @@ const EventList = ({ events, setEvents }) => {
       };
   
       fetchAllAttendances();
+      // eslint-disable-next-line
     }, [events, getAttendance]);
     
 
@@ -72,8 +73,8 @@ const EventList = ({ events, setEvents }) => {
               <QRCodeCanvas id="qrCode" value={`http://localhost:3000/Form/${event.accessCode}`} />
               <ul>
                 {attendees.map((participant, index) => (
-                    <li key={index}>
-                      {participant.participantName} ({participant.participantEmail}) - {participant.timestamp}
+                    <li key={participant.id}>
+                      {participant.participantName} ({participant.participantEmail}) - {new Date(participant.timestamp).toLocaleString()}
                     </li>
                   ))}
               </ul>

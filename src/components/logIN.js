@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-// import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setUser } from './userSlice';
 import { logIN } from '../api'
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +9,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [message] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -17,8 +19,12 @@ const LoginPage = () => {
     }
 
     try {
-      await logIN(loginDetail);
+      const response = await logIN(loginDetail);
       alert('Logged in successfully!');
+      
+      const {id, name} = response.data.user;
+      dispatch(setUser({ id, name }));
+
       navigate('/adminPage');
     } catch (error) {
       alert('There was an error logging in:', error);
