@@ -53,7 +53,7 @@ const App = () => {
               path="/adminPage"
               element={
                 <>
-                  <h1 id="eventManagement">{user.name}'s event group</h1>
+                  <h1 id="eventManagement">{user.name}'s event group {user.id}</h1>
 
                   <div id="searchDiv">
                     <input
