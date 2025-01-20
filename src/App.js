@@ -20,7 +20,7 @@ const App = () => {
   useEffect(() => {
     // console.log(user.id);
     if(user.id){
-      getEventById({eoId: user.id})
+      getEventById(user.id)
         .then((response) => {
           setEvents(response.data);
           // console.log(response);
@@ -33,8 +33,8 @@ const App = () => {
       getEvents()
       .then((response) => {
         setEvents(response.data);
-        console.log(response.data);
-        console.log(response);
+        // console.log(response.data);
+        // console.log(response);
       })
       .catch((error) => {
         console.error('Error fetching events:', error);
@@ -56,7 +56,7 @@ const App = () => {
               path="/adminPage"
               element={
                 <>
-                  <h1 id="eventManagement">{user.name}'s event group {user.id}</h1>
+                  <h1 id="eventManagement">{user.name}'s event group</h1>
 
                   <div id="searchDiv">
                     <input

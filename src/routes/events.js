@@ -40,10 +40,10 @@ router.get('/events', (req, res) => {
 
 router.get('/events/:id', async (req,res) => {
     const { id } = req.params;
-
-    models.getUserEvents(id, (err, result) => {
+    models.getUserEvents(id, (err, rows) => {
         if (err) return res.status(500).send("Error fetching events.");
-    res.json(rows);
+        // console.log(rows);
+        res.json(rows);
     });
 });
 
