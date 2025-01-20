@@ -36,7 +36,7 @@ const EventList = ({ events, setEvents }) => {
     if (confirmDelete) {
       delEvent(eventId)
         .then(() => {
-          setEvents((prevEvents) => prevEvents.filter((event) => event.id !== eventId));
+          setEvents((events) => events.filter((event) => event.id !== eventId));
           alert('Event deleted successfully!');
         })
         .catch((error) => {
@@ -82,7 +82,7 @@ const EventList = ({ events, setEvents }) => {
             <ExportAttendance event={event} />
             <button
               onClick={() => handleDelete(event.id)}
-              style={{ marginTop: '10px', backgroundColor: 'red', color: 'white', width: '100px' }}
+              style={{ margin: '5px', backgroundColor: 'red', color: 'white', width: '100px' }}
             >
               Delete Event
             </button>

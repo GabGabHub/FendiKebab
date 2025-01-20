@@ -35,16 +35,7 @@ const LoginPage = () => {
 
       return (
         <button
-          style={{
-            width: '150px',
-            margin: '5px',
-            backgroundColor: 'blue',
-            color: 'white',
-            padding: '10px',
-            borderRadius: '5px',
-            border: 'none',
-            cursor: 'pointer',
-          }}
+          style={{ width: '100px', margin: '5px' }}
           onClick={() => navigate('/signin')}
         >
           Sign In

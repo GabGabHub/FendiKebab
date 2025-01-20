@@ -24,14 +24,14 @@ const EventForm = ({ setEvents }) => {
       .then((response) => {
 
         const createdEvent = response.data;
-        console.log(createdEvent);
-        console.log(createdEvent.dataValues.startTime);
+        // console.log(createdEvent);
+        // console.log(createdEvent.dataValues.startTime);
         const newEvent = {
           ...createdEvent.dataValues,
           startTime: new Date(createdEvent.dataValues.startTime).toLocaleString(),
           endTime: new Date(createdEvent.dataValues.endTime).toLocaleString(),
         };
-        console.log(newEvent);
+        // console.log(newEvent);
 
         setEvents((prevEvents) => [...prevEvents, newEvent]);
         alert("Event created successfully!");
