@@ -1,7 +1,7 @@
 import React from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { useNavigate } from 'react-router-dom';
-
+import './styles/EventViewer.css';
 const EventViewer = ({ events }) => {
   if (!events || events.length === 0) {
     return <p>No events available.</p>;

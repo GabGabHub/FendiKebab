@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-// import axios from 'axios';
-import { postAttendance } from './api'
+import { postAttendance } from './api';
 import { useParams, useNavigate } from 'react-router-dom';
+import './styles/FormPage.css';
 
 const FormPage = () => {
   const { accessCode } = useParams();
@@ -17,8 +17,8 @@ const FormPage = () => {
       name,
       email,
       accessCode
-    }
-      postAttendance(formData)
+    };
+    postAttendance(formData)
       .then(response => {
         alert("Attendance recorded successfully!");
       })
@@ -27,27 +27,9 @@ const FormPage = () => {
       });
   };
 
-const NavigateToMain = () => {
-
-  return (
-    <button
-      style={{
-        width: '150px',
-        margin: '5px',
-        backgroundColor: 'blue',
-        color: 'white',
-        padding: '10px',
-        borderRadius: '5px',
-        border: 'none',
-        cursor: 'pointer',
-      }}
-      onClick={() => navigate('/')}
-    >
-      Go back
-    </button>
-  );
-};
-
+  const NavigateToMain = () => {
+    navigate('/');  // This will send you directly to the homepage (http://localhost:3000/)
+  };
 
   return (
     <div style={{ padding: '20px' }}>
@@ -77,7 +59,21 @@ const NavigateToMain = () => {
         <button type="submit">Submit</button>
       </form>
       {message && <p>{message}</p>}
-      <NavigateToMain></NavigateToMain>
+      <button
+        style={{
+          width: '150px',
+          margin: '5px',
+          backgroundColor: 'blue',
+          color: 'white',
+          padding: '10px',
+          borderRadius: '5px',
+          border: 'none',
+          cursor: 'pointer',
+        }}
+        onClick={NavigateToMain}
+      >
+        Go back
+      </button>
     </div>
   );
 };

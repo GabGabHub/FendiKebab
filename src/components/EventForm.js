@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { createEvent } from "../api";
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from 'react-redux';
-
+import '../styles/EventForm.css';
 const EventForm = ({ setEvents }) => {
   const [eventName, setEventName] = useState("");
   const [startTime, setStartTime] = useState("");

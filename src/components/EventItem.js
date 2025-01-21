@@ -1,7 +1,7 @@
 import React from "react";
 import QRCode from "qrcode.react";
 import { useNavigate } from 'react-router-dom';
-
+import '../styles/EventItem.css';
 
 const EventItem = ({ event }) => {
   const currentTime = new Date();

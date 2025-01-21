@@ -1,46 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'; 
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import EventList from './components/EventList';
-import EventViewer from './EventViewer'; 
+import EventViewer from './EventViewer';
 import { getEventById, getEvents } from './api';
 import EventForm from './components/EventForm';
 import './App.css';
-import FormPage from './FormPage'; 
+import FormPage from './FormPage';
 import LoginPage from './components/logIN';
 import SigninPage from './components/signIN';
 import { useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
   const [events, setEvents] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(''); 
+  const [searchTerm, setSearchTerm] = useState('');
   const [inputText, setInputText] = useState('');
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    // console.log(user.id);
-    if(user.id){
+    if (user.id) {
       getEventById(user.id)
         .then((response) => {
           setEvents(response.data);
-          // console.log(response);
-          // console.log(response.data);
         })
         .catch((error) => {
           console.error('Error fetching events:', error);
         });
-    }else{
+    } else {
       getEvents()
-      .then((response) => {
-        setEvents(response.data);
-        // console.log(response.data);
-        // console.log(response);
-      })
-      .catch((error) => {
-        console.error('Error fetching events:', error);
-      });
+        .then((response) => {
+          setEvents(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching events:', error);
+        });
     }
-  }); 
+  }, [user.id]); // Add this to avoid infinite loop of fetching events
 
   const filteredEvents = events.filter((event) => {
     const name = event.name ? event.name.toLowerCase() : '';
@@ -48,51 +44,50 @@ const App = () => {
   });
 
   return (
-      <Router>
-        <div id="mainPage">
-          <Routes>
-            <Route path="/" element={<><LogIn /><NavigateToForm inputText={inputText} setInputText={setInputText} /></>}></Route>
-            <Route
-              path="/adminPage"
-              element={
-                <>
-                  <h1 id="eventManagement">{user.name}'s event group</h1>
+    <Router>
+      <div id="mainPage">
+        <Routes>
+          <Route path="/" element={<><LogIn /><NavigateToForm inputText={inputText} setInputText={setInputText} /></>} />
+          <Route
+            path="/adminPage"
+            element={
+              <>
+                <h1 id="eventManagement">{user.name}'s event group</h1>
 
-                  <div id="searchDiv">
-                    <input
-                      type="text"
-                      id="searchInput"
-                      placeholder="Search by event name..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                  </div>
+                <div id="searchDiv">
+                  <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by event name..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
 
-                  <div id="addBtn">
-                    <EventList events={filteredEvents} setEvents={setEvents} />
+                <div id="addBtn">
+                  <ToastContainer position="top-right" autoClose={5000} />
+                  <EventList events={filteredEvents} setEvents={setEvents} />
 
-                    <button
-                      style={{ width: '100px', margin: '5px' }}
-                      onClick={() => setShowForm(!showForm)}
-                    >
-                      {showForm ? 'Cancel' : 'Add Event'}
-                    </button>
+                  <button
+                    style={{ width: '100px', margin: '5px' }}
+                    onClick={() => setShowForm(!showForm)}
+                  >
+                    {showForm ? 'Cancel' : 'Add Event'}
+                  </button>
 
-                    {showForm && <EventForm setEvents={setEvents} />}
-
-                    <NavigateToViewer />
-                  </div>
-                </>
-              }
-            />
-            <Route path="/Form/:accessCode" element={<FormPage />} />
-            <Route path="/eventviewer" element={<EventViewer events={events} />} />
-            <Route path="/auth" element={<LoginPage />} />
-            <Route path="/signin" element={<SigninPage />} />
-          </Routes>
-        </div>
-      </Router>
-
+                  {showForm && <EventForm setEvents={setEvents} />}
+                  <NavigateToViewer />
+                </div>
+              </>
+            }
+          />
+          <Route path="/Form/:accessCode" element={<FormPage />} />
+          <Route path="/eventviewer" element={<EventViewer events={events} />} />
+          <Route path="/auth" element={<LoginPage />} />
+          <Route path="/signin" element={<SigninPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
@@ -147,6 +142,9 @@ const LogIn = () => {
   return (
     <button
       style={{
+        position: 'absolute',
+        top: '20px',
+        left: '20px',
         width: '150px',
         margin: '5px',
         backgroundColor: 'blue',
