@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://playful-licorice-99ec34.netlify.app/api',
+  baseURL: 'https://fendikebab.onrender.com',
 });
 
 export const getEvents = () => api.get('/events');

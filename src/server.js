@@ -5,6 +5,13 @@ const eventsRoutes = require('./routes/events');
 const attendanceRoutes = require('./routes/attendance');
 const eventOrganizer = require('./routes/admin');
 
+/*app.use(cors({
+  origin: 'http://playful-licorice-99ec34.netlify.app/api', // Replace with your Netlify domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
+*/
+
 const app = express();
 const PORT = 5000; 
 
