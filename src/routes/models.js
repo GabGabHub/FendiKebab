@@ -28,14 +28,14 @@ const Attendance = sequelize.define('Attendance', {
     timestamp: { type: DataTypes.STRING, allowNull: false },
 });
 
-Event.hasMany(Attendance, { foreignKey: 'eventId' });
-Participant.hasMany(Attendance, { foreignKey: 'participantId' });
-EventOrganizer.hasMany(Event, { foreignKey: 'eoId' }); 
-Event.belongsTo(EventOrganizer, { foreignKey: 'eoId' });
-Attendance.belongsTo(Event, { foreignKey: 'eventId' });
-Attendance.belongsTo(Participant, { foreignKey: 'participantId' });
+Event.hasMany(Attendance, { foreignKey: 'eventId' , onDelete: 'CASCADE'  });
+Participant.hasMany(Attendance, { foreignKey: 'participantId' , onDelete: 'CASCADE'  });
+EventOrganizer.hasMany(Event, { foreignKey: 'eoId' , onDelete: 'CASCADE'  }); 
+Event.belongsTo(EventOrganizer, { foreignKey: 'eoId' , onDelete: 'CASCADE'  });
+Attendance.belongsTo(Event, { foreignKey: 'eventId' , onDelete: 'CASCADE'  });
+Attendance.belongsTo(Participant, { foreignKey: 'participantId' , onDelete: 'CASCADE'  });
 
-sequelize.sync({ alter: true })
+sequelize.sync()
     .then(() => console.log('Database synced'))
     .catch((err) => console.error('Error syncing database:', err));
 

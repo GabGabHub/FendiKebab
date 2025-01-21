@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from './userSlice';
 import { logIN } from '../api'
 import { useNavigate } from 'react-router-dom';
-
+import '../styles/LogIn.css';
 const LoginPage = () => {
   const [name, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +32,7 @@ const LoginPage = () => {
     }
 
     const SignIn = () => {
-
+      const navigate = useNavigate();
       return (
         <button
           style={{ width: '100px', margin: '5px' }}

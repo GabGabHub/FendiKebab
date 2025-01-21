@@ -3,33 +3,34 @@ import { QRCodeCanvas } from 'qrcode.react';
 import { delEvent, getAttendance } from '../api';
 import '../App.css';
 import ExportAttendance from './ExportAttendance';
+import '../styles/EventList.css';
+import { toast } from 'react-toastify'; // Import the toast functionality
+import 'react-toastify/dist/ReactToastify.css'; // Import the required styles
 
 const EventList = ({ events, setEvents }) => {
-    const [attendeesMap, setAttendeesMap] = useState({});
+  const [attendeesMap, setAttendeesMap] = useState({});
   
-    useEffect(() => {
-      const fetchAllAttendances = async () => {
-        const newAttendeesMap = {};
-        for (const event of events) {
-          try {
-            const response = await getAttendance(event.id);
-            newAttendeesMap[event.id] = response.data.map((att) => ({
-              participantName: att.Participant.name,
-              participantEmail: att.Participant.email,
-              timestamp: att.timestamp,
-            }));
-          } catch (error) {
-            console.error(`Error fetching attendance for event ${event.id}:`, error);
-          }
+  useEffect(() => {
+    const fetchAllAttendances = async () => {
+      const newAttendeesMap = {};
+      for (const event of events) {
+        try {
+          const response = await getAttendance(event.id);
+          newAttendeesMap[event.id] = response.data.map((att) => ({
+            participantName: att.Participant.name,
+            participantEmail: att.Participant.email,
+            timestamp: att.timestamp,
+          }));
+        } catch (error) {
+          console.error(`Error fetching attendance for event ${event.id}:`, error);
         }
-        setAttendeesMap(newAttendeesMap);
-      };
-  
-      fetchAllAttendances();
-      // eslint-disable-next-line
-    }, [events, getAttendance]);
-    
+      }
+      setAttendeesMap(newAttendeesMap);
+    };
 
+    fetchAllAttendances();
+    // eslint-disable-next-line
+  }, [events, getAttendance]);
 
   const handleDelete = (eventId) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this event?');
@@ -37,11 +38,11 @@ const EventList = ({ events, setEvents }) => {
       delEvent(eventId)
         .then(() => {
           setEvents((events) => events.filter((event) => event.id !== eventId));
-          alert('Event deleted successfully!');
+          toast.success('Event deleted successfully!'); // Display success toast
         })
         .catch((error) => {
           console.error('Error deleting event:', error);
-          alert('Failed to delete the event.');
+          toast.error('Failed to delete the event.'); // Display error toast
         });
     }
   };
@@ -73,10 +74,10 @@ const EventList = ({ events, setEvents }) => {
               <QRCodeCanvas id="qrCode" value={`http://localhost:3000/Form/${event.accessCode}`} />
               <ul>
                 {attendees.map((participant, index) => (
-                    <li key={participant.id}>
-                      {participant.participantName} ({participant.participantEmail}) - {new Date(participant.timestamp).toLocaleString()}
-                    </li>
-                  ))}
+                  <li key={participant.id}>
+                    {participant.participantName} ({participant.participantEmail}) - {new Date(participant.timestamp).toLocaleString()}
+                  </li>
+                ))}
               </ul>
             </div>
             <ExportAttendance event={event} />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { signIN } from '../api'
 import { useNavigate } from 'react-router-dom';
-
+import '../styles/SignIn.css';
 const SigninPage = () => {
   const [name, setUsername] = useState('');
   const [password, setPassword] = useState('');
