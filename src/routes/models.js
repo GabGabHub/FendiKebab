@@ -75,14 +75,22 @@ const getUserEvents = async (eoId, callback) => {
 
 const deleteEvent = async (eventId, callback) => {
     try {
+
+        await Attendance.destroy({
+            where: { eventId: eventId}
+        })
+        // await Participant.destroy({
+        //     where: { participantId: eventId }
+        // })
+
         const result = await Event.destroy({
             where: { id: eventId },
         });
 
         if (result === 0) {
-            callback(`Event with id ${eventId} not found`, null);
+            callback('Event with id ${eventId} not found', null);
         } else {
-            callback(null, `Event with id ${eventId} successfully deleted`);
+            callback(null, 'Event with id ${eventId} successfully deleted');
         }
     } catch (error) {
         console.error("Error deleting event:", error);

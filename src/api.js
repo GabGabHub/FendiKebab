@@ -1,10 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'http://playful-licorice-99ec34.netlify.app/api',
 });
-
-
 
 export const getEvents = () => api.get('/events');
 export const createEvent = (eventData) => api.post('/events', eventData);

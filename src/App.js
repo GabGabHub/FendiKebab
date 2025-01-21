@@ -10,6 +10,7 @@ import LoginPage from './components/logIN';
 import SigninPage from './components/signIN';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const [events, setEvents] = useState([]);

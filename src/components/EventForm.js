@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { createEvent } from "../api";
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/EventForm.css';
+
 const EventForm = ({ setEvents }) => {
   const [eventName, setEventName] = useState("");
   const [startTime, setStartTime] = useState("");
@@ -14,31 +17,33 @@ const EventForm = ({ setEvents }) => {
 
     const eventData = {
       name: eventName,
-      startTime, 
-      endTime,   
+      startTime,
+      endTime,
       accessCode: uuidv4().slice(0, 8).toUpperCase(),
       eoId: user.id ? user.id : null,
     };
 
     createEvent(eventData)
       .then((response) => {
-
         const createdEvent = response.data;
-        // console.log(createdEvent);
-        // console.log(createdEvent.dataValues.startTime);
         const newEvent = {
           ...createdEvent.dataValues,
           startTime: new Date(createdEvent.dataValues.startTime).toLocaleString(),
           endTime: new Date(createdEvent.dataValues.endTime).toLocaleString(),
         };
-        // console.log(newEvent);
 
         setEvents((prevEvents) => [...prevEvents, newEvent]);
-        alert("Event created successfully!");
+        toast.success("Event created successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       })
       .catch((error) => {
         console.error("Error creating event:", error);
-        alert("There was an error creating the event.");
+        toast.error("There was an error creating the event.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       });
 
     setEventName("");

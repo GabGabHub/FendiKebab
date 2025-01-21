@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { postAttendance } from "../api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AttendanceCheckin = ({ events }) => {
   const [codeInput, setCodeInput] = useState("");
@@ -11,7 +13,7 @@ const AttendanceCheckin = ({ events }) => {
   };
 
   const handleCheckIn = () => {
-    const foundEvent = events.find(event => event.accessCode === codeInput);
+    const foundEvent = events.find((event) => event.accessCode === codeInput);
     if (foundEvent) {
       setEvent(foundEvent);
       postAttendance({
@@ -19,14 +21,24 @@ const AttendanceCheckin = ({ events }) => {
         timestamp: new Date().toISOString(),
         participantId: 1,
       })
-      .then(response => {
-        alert("Attendance recorded successfully!");
-      })
-      .catch(error => {
-        console.error("There was an error recording attendance!", error);
-      });
+        .then(() => {
+          toast.success("Attendance recorded successfully!", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        })
+        .catch((error) => {
+          console.error("There was an error recording attendance!", error);
+          toast.error("Failed to record attendance. Please try again.", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        });
     } else {
-      alert("Invalid access code.");
+      toast.error("Invalid access code.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

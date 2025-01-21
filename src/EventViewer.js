@@ -25,7 +25,7 @@ const EventViewer = ({ events }) => {
                 <p id="endTime">End Time: {eventEndTime.toLocaleString()}</p>
                 <p>Status: {isOpen ? "OPEN" : "CLOSED"}</p>
               </div>
-              <QRCodeCanvas id="qrCode" value={event.accessCode} />
+              {isOpen && <QRCodeCanvas id="qrCode" value={event.accessCode} />}
             </div>
           </div>
         );

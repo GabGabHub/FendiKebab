@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { postAttendance } from './api';
 import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './styles/FormPage.css';
 
 const FormPage = () => {
   const { accessCode } = useParams();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [message] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,19 +17,29 @@ const FormPage = () => {
     const formData = {
       name,
       email,
-      accessCode
+      accessCode,
     };
+
     postAttendance(formData)
-      .then(response => {
-        alert("Attendance recorded successfully!");
+      .then((response) => {
+        toast.success("Attendance recorded successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        setName('');
+        setEmail('');
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("There was an error recording attendance!", error);
+        toast.error("Failed to record attendance. Please try again.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       });
   };
 
   const NavigateToMain = () => {
-    navigate('/');  // This will send you directly to the homepage (http://localhost:3000/)
+    navigate('/'); // Redirects to the homepage
   };
 
   return (
@@ -58,7 +69,6 @@ const FormPage = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
-      {message && <p>{message}</p>}
       <button
         style={{
           width: '150px',
