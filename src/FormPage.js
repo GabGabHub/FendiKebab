@@ -13,30 +13,30 @@ const FormPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formData = {
       name,
       email,
       accessCode,
     };
-
-    postAttendance(formData)
-      .then((response) => {
-        toast.success("Attendance recorded successfully!", {
-          position: "top-right",
-          autoClose: 3000,
-        });
-        setName('');
-        setEmail('');
-      })
-      .catch((error) => {
-        console.error("There was an error recording attendance!", error);
-        toast.error("Failed to record attendance. Please try again.", {
-          position: "top-right",
-          autoClose: 3000,
-        });
+  
+    try {
+      await postAttendance(formData);
+      toast.success('Attendance recorded successfully!', {
+        position: 'top-right',
+        autoClose: 3000,
       });
+      setName('');
+      setEmail('');
+    } catch (error) {
+      console.error('There was an error recording attendance!', error);
+      toast.error('Failed to record attendance. Please try again.', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    }
   };
+  
 
   const NavigateToMain = () => {
     navigate('/'); // Redirects to the homepage

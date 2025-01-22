@@ -38,14 +38,21 @@ const EventList = ({ events, setEvents }) => {
       delEvent(eventId)
         .then(() => {
           setEvents((events) => events.filter((event) => event.id !== eventId));
-          toast.success('Event deleted successfully!'); // Display success toast
+          toast.success('Event deleted successfully!', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
         })
         .catch((error) => {
           console.error('Error deleting event:', error);
-          toast.error('Failed to delete the event.'); // Display error toast
+          toast.error('Failed to delete the event.', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
         });
     }
   };
+  
 
   if (!events || events.length === 0) {
     return <p>No events available.</p>;

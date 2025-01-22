@@ -47,6 +47,7 @@ const App = () => {
   return (
     <Router>
       <div id="mainPage">
+      <ToastContainer position="top-right" autoClose={5000} />
         <Routes>
           <Route path="/" element={<><LogIn /><NavigateToForm inputText={inputText} setInputText={setInputText} /></>} />
           <Route
@@ -66,7 +67,7 @@ const App = () => {
                 </div>
 
                 <div id="addBtn">
-                  <ToastContainer position="top-right" autoClose={5000} />
+              
                   <EventList events={filteredEvents} setEvents={setEvents} />
 
                   <button
