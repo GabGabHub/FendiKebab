@@ -16,7 +16,11 @@ const app = express();
 const PORT = 5000; 
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: 'http://playful-licorice-99ec34.netlify.app/api', // Replace with your Netlify domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 
 app.use('/api', eventsRoutes);
 app.use('/api', attendanceRoutes);
